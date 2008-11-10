@@ -4,6 +4,9 @@
 require 'net/smtp'
 require 'rubygems'
 require 'mailfactory'
+require 'tlsmail'
+
+Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 
 class MailFactory
   attr_reader :html, :text
