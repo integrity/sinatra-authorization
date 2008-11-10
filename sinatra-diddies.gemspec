@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = 'sinatra-diddies'
   s.version  = '0.0.1'
-  s.date     = '2008-11-09'
+  s.date     = '2008-11-10'
   s.summary  = 'A series of plugins and useful helpers for the Sinatra web framework'
   s.description = 'A series of plugins and useful helpers for the Sinatra web framework'
   s.homepage = 'http://github.com/foca/sinatra-diddies'
