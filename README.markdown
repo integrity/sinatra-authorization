@@ -1,4 +1,4 @@
-Sinatra Diddies
+Sinatra Ditties
 ===============
 
 All those handy tunes in one elegant package.
@@ -13,8 +13,8 @@ For example:
 
     post "/signup" do
       # sign up the user, and then:
-      email :to      => @user.email, 
-            :from    => "awesomeness@example.com", 
+      email :to      => @user.email,
+            :from    => "awesomeness@example.com",
             :subject => "Welcome to Awesomeness!",
             :body    => haml(:some_template)
     end
@@ -24,7 +24,7 @@ Configuration
 
 This plugin is very dirty yet :) Since it's just a port to Sinatra of
 [Merb::Mailer][merb-mailer]. So the configuration is not Sinatra-y, yet.
-But we'll get to that. 
+But we'll get to that.
 
 Using SMTP
 ----------
@@ -45,7 +45,7 @@ You need [smtp-tls][], a gem that improves `net/smtp` to add support for secure
 servers such as Gmail.
 
     require "smtp-tls"
-    
+
     Sinatra::Mailer.config = {
       :host => 'smtp.gmail.com',
       :port => '587',
@@ -53,8 +53,8 @@ servers such as Gmail.
       :pass => 'pass',
       :auth => :plain
     }
-    
-Make sure that when you call your `email` method you pass the `:text` option 
+
+Make sure that when you call your `email` method you pass the `:text` option
 and not `:body`.
 
 Using sendmail
