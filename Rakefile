@@ -25,3 +25,9 @@ task :rdoc => FileList['lib/**/*.rb','README.rdoc'] do |t|
           #{t.prerequisites.join(" ")}
   EOS
 end
+
+desc 'Publish doc to rubyforge'
+task 'publish:doc' => :rdoc do
+  user = ENV["USER"] == "simon" ? "srt" : ENV["USER"]
+  sh "scp -r dist/doc/* #{user}@rubyforge.org:/var/www/gforge-projects/sinatra-ditties/"
+end
