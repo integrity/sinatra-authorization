@@ -1,5 +1,9 @@
 require "test/unit"
 require "sinatra/test"
+begin
+  require "redgreen"
+rescue LoadError
+end
 
 $:.unshift File.expand_path(File.dirname(__FILE__) + "/../lib")
 
