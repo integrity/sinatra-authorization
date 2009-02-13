@@ -26,7 +26,7 @@ def describe(*args, &block)
     def self.it(name, &block)
       define_method("test_#{name.gsub(/\W/,'_').downcase}", &block)
     end
-    def self.xspecify(*args) end
+    def self.xit(*args) end
     def self.before(&block) define_method(:setup, &block)    end
     def self.after(&block)  define_method(:teardown, &block) end
   end

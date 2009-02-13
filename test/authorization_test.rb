@@ -36,7 +36,7 @@ describe "Authorization" do
     assert_equal "Welcome in protected zone", @session.body
   end
 
-  it "sets REMOTE_USER" do
+  xit "sets REMOTE_USER" do
     flunk "pending"
   end
 
