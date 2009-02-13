@@ -7,13 +7,14 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/foca/sinatra-ditties'
   s.email    = 'contacto@nicolassanguinetti.info'
   s.authors  = ['Nicolás Sanguinetti']
-  s.has_rdoc = false
-  s.files    = ['README.markdown',
-    'lib/ditties.rb',
-    'lib/ditties/authorization.rb',
-    'lib/ditties/mailer.rb',
+  s.has_rdoc = true
+  s.files    = ['README.rdoc',
+    'lib/sinatra/ditties.rb',
+    'lib/sinatra/ditties/authorization.rb',
+    'lib/sinatra/ditties/mailer.rb',
   ]
   s.add_dependency('sinatra', ['>= 0.3.2'])
   s.add_dependency('mailfactory', ['>= 1.4.0'])
   s.add_dependency('tlsmail')
+  s.rubyforge_project = "sinatra-ditties"
 end
