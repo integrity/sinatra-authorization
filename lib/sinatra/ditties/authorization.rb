@@ -2,14 +2,14 @@ module Sinatra
   # HTTP Authorization helpers for Sinatra.
   #
   # In your helpers module, include Sinatra::Authorization and then define
-  # a +authorize(user, password)+ method to handle user provided
+  # an #authorize(user, password) method to handle user provided
   # credentials.
   #
-  # Inside your events, call +login_required+ to trigger the HTTP
+  # Inside your events, call #login_required to trigger the HTTP
   # Authorization window to pop up in the browser.
   #
-  # Code adapted from Ryan Tomayko <http://tomayko.com> and Christopher
-  # Schneid <http://gittr.com>, shared under an MIT License
+  # Code adapted from {Ryan Tomayko}[http://tomayko.com/about] and
+  # {Christopher Schneid}[http://gittr.com], shared under an MIT License
   module Authorization
     # Redefine this method on your helpers block to actually contain
     # your authorization logic.
@@ -18,7 +18,7 @@ module Sinatra
     end
 
     # From you app, call set :authorization_realm, "my app" to set this
-    # or define a `authorization_realm` method in your helpers block.
+    # or define a #authorization_realm method in your helpers block.
     def authorization_realm
       Sinatra::Default.authorization_realm
     end
@@ -44,7 +44,6 @@ module Sinatra
     end
 
     private
-
       def auth
         @auth ||= Rack::Auth::Basic::Request.new(request.env)
       end
