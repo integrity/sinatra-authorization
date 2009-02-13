@@ -13,35 +13,71 @@ class MailFactory
 end
 
 module Sinatra
-  # You'll need a simple config like this in your configure block if you want
-  # to actually send mail:
+  # = Sinatra::Mailer
   #
-  #   Sinatra::Mailer.config = {
-  #     :host   => 'smtp.yourserver.com',
-  #     :port   => '25',              
-  #     :user   => 'user',
-  #     :pass   => 'pass',
-  #     :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
-  #     :domain => "localhost.localdomain" # the HELO domain provided by the client to the server 
-  #   }
-  # 
- 	#   or 
- 	# 
- 	#   Sinatra::Mailer.config = {:sendmail_path => '/somewhere/odd'}
-  #   Sinatra::Mailer.delivery_method = :sendmail
+  # Adds an #email method to your email handlers, that receives a hash of
+  # values to create your email.
   #
-  # From your event handlers then, you can just call the 'email' method to deliver an email:
-  # 
-  #   email :to => 'foo@bar.com',
-  #         :from => 'bar@foo.com',
-  #         :subject => 'Welcome to whatever!',
-  #         :body => haml(:sometemplate)
+  # For example:
   #
+  #   post "/signup" do
+  #     # sign up the user, and then:
+  #     email :to      => @user.email,
+  #           :from    => "awesomeness@example.com",
+  #           :subject => "Welcome to Awesomeness!",
+  #           :body    => haml(:some_template)
+  #   end
+  #
+  # == Configuration
+  #
+  # This plugin is very dirty yet :) Since it's just a port to Sinatra of
+  # Merb::Mailer[merbivore.com/documentation/1.0/doc/rdoc/merb-mailer-1.0].
+  # So the configuration is not Sinatra-y, yet. But we'll get to that.
+  #
+  # == Using SMTP
+  #
+  #  Sinatra::Mailer.config = {
+  #    :host   => 'smtp.yourserver.com',
+  #    :port   => '25',
+  #    :user   => 'user',
+  #    :pass   => 'pass',
+  #    :auth   => :plain # :plain, :login, :cram_md5, the default is no auth
+  #    :domain => "localhost.localdomain" # HELO domain provided by the client
+  #  }
+  #
+  # == Using Gmail SMTP
+  #
+  # You need smtp-tls[http://github.com/ambethia/smtp-tls], a gem that improves
+  # Net::HTTP to add support for secure servers such as Gmail.
+  #
+  #  require "smtp-tls"
+  #
+  #  Sinatra::Mailer.config = {
+  #    :host => 'smtp.gmail.com',
+  #    :port => '587',
+  #    :user => 'user@gmail.com',
+  #    :pass => 'pass',
+  #    :auth => :plain
+  #  }
+  #
+  # Make sure that when you call your #email method you pass the
+  # +:text+ option and not +:body+.
+  #
+  # == Using sendmail
+  #
+  #  Sinatra::Mailer.config = {:sendmail_path => '/somewhere/odd'}
+  #  Sinatra::Mailer.delivery_method = :sendmail
+  #
+  # == Credits
+  #
+  # This has been blatantly adapted from
+  # Merb::Mailer[merbivore.com/documentation/1.0/doc/rdoc/merb-mailer-1.0]
+  # so all credit is theirs, I just ported it to Sinatra.
   module Mailer
     class << self
       attr_accessor :config, :delivery_method
     end
-    
+
     def email(mail_options={})
       Email.new(mail_options).deliver!
     end
@@ -51,14 +87,14 @@ module Sinatra
 
       # Sends the mail using sendmail.
       def sendmail
-        sendmail = IO.popen("#{config[:sendmail_path]} #{@mail.to}", 'w+') 
+        sendmail = IO.popen("#{config[:sendmail_path]} #{@mail.to}", 'w+')
         sendmail.puts @mail.to_s
         sendmail.close
       end
 
       # Sends the mail using SMTP.
       def net_smtp
-        Net::SMTP.start(config[:host], config[:port].to_i, config[:domain], 
+        Net::SMTP.start(config[:host], config[:port].to_i, config[:domain],
                         config[:user], config[:pass], config[:auth]) { |smtp|
           smtp.send_message(@mail.to_s, @mail.from.first, @mail.to.to_s.split(/[,;]/))
         }
@@ -81,7 +117,7 @@ module Sinatra
       # ==== Raises
       # ArgumentError::
       #   file_or_files was not a File or an Array of File instances.
-      def attach(file_or_files, filename = file_or_files.is_a?(File) ? File.basename(file_or_files.path) : nil, 
+      def attach(file_or_files, filename = file_or_files.is_a?(File) ? File.basename(file_or_files.path) : nil,
         type = nil, headers = nil)
         if file_or_files.is_a?(Array)
           file_or_files.each {|k,v| @mail.add_attachment_as k, *v}
@@ -103,7 +139,7 @@ module Sinatra
 
     end
   end
-  
+
   class EventContext
     include Mailer
   end
