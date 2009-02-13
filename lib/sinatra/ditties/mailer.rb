@@ -2,7 +2,6 @@
 # http://merbivore.com
 
 require 'net/smtp'
-require 'rubygems'
 require 'mailfactory'
 require 'tlsmail'
 
