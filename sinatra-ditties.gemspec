@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name     = 'sinatra-ditties'
-  s.version  = '0.0.2'
-  s.date     = '2008-11-10'
+  s.version  = '0.0.3'
+  s.date     = '2009-02-13'
   s.summary  = 'A series of plugins and useful helpers for the Sinatra web framework'
   s.description = 'A series of plugins and useful helpers for the Sinatra web framework'
   s.homepage = 'http://github.com/foca/sinatra-ditties'
   s.email    = 'contacto@nicolassanguinetti.info'
-  s.authors  = ['Nicolás Sanguinetti']
+  s.authors  = ['Nicolás Sanguinetti', 'Simon Rozet']
   s.has_rdoc = true
   s.files    = ['README.rdoc',
     'lib/sinatra/ditties.rb',
