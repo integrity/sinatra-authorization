@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + "/test_helper"
 require "sinatra/authorization"
 
-class AuthorizationApp < TestApp
-  include Sinatra::Authorization
+class AuthorizationApp < Sinatra::Default
+  set :environment, :test
 
   get "/" do
     login_required
