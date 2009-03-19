@@ -1,7 +1,7 @@
 require "rake/testtask"
 require "rake/clean"
 
-require File.dirname(__FILE__) + "/lib/sinatra/ditties"
+require File.dirname(__FILE__) + "/lib/sinatra/authorization"
 
 task :default => :test
 
