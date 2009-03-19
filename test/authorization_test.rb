@@ -1,5 +1,9 @@
-require File.dirname(__FILE__) + "/test_helper"
-require "sinatra/authorization"
+require "test/unit"
+require "sinatra/test"
+require "context"
+require "pending"
+
+require File.dirname(__FILE__) + "/../lib/sinatra/authorization"
 
 class AuthorizationApp < Sinatra::Default
   set :environment, :test
@@ -19,7 +23,7 @@ class AuthorizationApp < Sinatra::Default
   end
 end
 
-describe "Authorization" do
+class SinatraAuthorizationTest < Test::Unit::TestCase
   before do
     @session = Sinatra::TestHarness.new(AuthorizationApp)
   end
@@ -36,8 +40,8 @@ describe "Authorization" do
     assert_equal "Welcome in protected zone", @session.body
   end
 
-  xit "sets REMOTE_USER" do
-    flunk "pending"
+  it "sets REMOTE_USER" do
+    pending "TODO"
   end
 
   it "is unauthorized without credentials" do
