@@ -23,6 +23,29 @@ class AuthorizationApp < Sinatra::Default
   end
 end
 
+class SugarApp < Sinatra::Default
+  set :environment, :test
+
+  authorize 'The Sugar App' do |*credentials|
+    credentials == ['fizz', 'buzz']
+  end
+
+  protecting %r|/sekret|
+
+  get '/' do
+    login_required
+    'ok'
+  end
+
+  get '/ok' do
+    'ok'
+  end
+
+  get '/sekret' do
+    'ok'
+  end
+end
+
 class SinatraAuthorizationTest < Test::Unit::TestCase
   before do
     @session = Rack::Test::Session.new(AuthorizationApp)
@@ -62,5 +85,32 @@ class SinatraAuthorizationTest < Test::Unit::TestCase
   it "returns a 400, Bad Request if not basic auth" do
     @session.get "/", {}, { "HTTP_AUTHORIZATION" => "Foo bar" }
     assert_equal 400, @session.last_response.status
+  end
+
+  describe "sugarly" do
+    before do
+      @session = Rack::Test::Session.new(SugarApp)
+    end
+
+    it "generates #authorize method via DSL" do
+      @session.get '/'
+      assert_equal 401, @session.last_response.status
+
+      @session.get '/', {}, basic_auth('fizz', 'buzz')
+      assert_equal 200, @session.last_response.status
+    end
+
+    it "allows realm to be specified" do
+      @session.get '/'
+      assert_equal %Q(Basic realm="The Sugar App"), @session.last_response["WWW-Authenticate"]
+    end
+
+    it "allows protected actions to be specified" do
+      @session.get '/ok'
+      assert_equal 200, @session.last_response.status
+
+      @session.get '/sekret'
+      assert_equal 401, @session.last_response.status
+    end
   end
 end

@@ -58,7 +58,30 @@ module Sinatra
       def bad_request!
         throw :halt, [ 400, 'Bad Request' ]
       end
+
+    module ClassMethods
+      def protecting(*patterns)
+        @protected_routes = []
+        @protected_routes += patterns
+      end
+
+      def authorize(realm='app', &block)
+        define_method(:authorize, &block)
+        define_method(:authorization_realm) { realm }
+      end
+
+      def protecting?(path)
+        @protected_routes && @protected_routes.any? { |pattern| path =~ pattern }
+      end
+    end
   end
 
-  helpers Authorization
+  helpers do
+    include Authorization
+    extend Authorization::ClassMethods
+
+    before do
+      login_required if self.class.protecting?(request.path_info)
+    end
+  end
 end
