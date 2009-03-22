@@ -72,7 +72,7 @@ module Sinatra
       end
 
       def authorize(realm="app", &block)
-        set :authorization_realm, realm
+        define_method(:authorization_realm) { realm }
         define_method(:authorize, &block)
       end
     end
