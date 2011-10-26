@@ -1,7 +1,7 @@
 require "test/unit"
 require "rack/test"
-require "context"
-require "pending"
+#require "context"
+#require "pending"
 
 require File.dirname(__FILE__) + "/../lib/sinatra/authorization"
 
