@@ -4,6 +4,7 @@ HTTP Authorization helpers for Sinatra.
 
 == Example
 
+```ruby
 require "sinatra/authorization"
 
 set :authorization_realm, "Protected zone"
@@ -23,3 +24,4 @@ get "/admin" do
 
   "Welcome in protected zone"
 end
+```
