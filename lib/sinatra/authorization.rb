@@ -22,7 +22,7 @@ module Sinatra
     # From you app, call set :authorization_realm, "my app" to set this
     # or define a #authorization_realm method in your helpers block.
     def authorization_realm
-      Sinatra::Default.authorization_realm
+      settings.authorization_realm
     end
 
     # Call in any event that requires authentication
