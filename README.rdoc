@@ -4,24 +4,22 @@ HTTP Authorization helpers for Sinatra.
 
 == Example
 
-```ruby
-require "sinatra/authorization"
+    require "sinatra/authorization"
 
-set :authorization_realm, "Protected zone"
+    set :authorization_realm, "Protected zone"
 
-helpers do
-  def authorize(login, password)
-    login == "admin" && password == "secret"
-  end
-end
+    helpers do
+      def authorize(login, password)
+        login == "admin" && password == "secret"
+      end
+    end
 
-get "/" do
-  "Hello"
-end
+    get "/" do
+      "Hello"
+    end
 
-get "/admin" do
-  login_required
+    get "/admin" do
+      login_required
 
-  "Welcome in protected zone"
-end
-```
+      "Welcome in protected zone"
+    end
